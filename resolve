@@ -1,0 +1,23 @@
+// Address of the SOL TLD
+export const SOL_TLD_AUTHORITY = new PublicKey(
+  "58PwtjSDuFHuUkYjH9BYnnQKHfwo9reZhC2zMJv9JPkx"
+);
+
+
+export const getInputKey = async (input: string) => {
+  let hashed_input_name = await getHashedName(input);
+  let inputDomainKey = await getNameAccountKey(
+    hashed_input_name,
+    undefined,
+    SOL_TLD_AUTHORITY
+  );
+  return { inputDomainKey: inputDomainKey, hashedInputName: hashed_input_name };
+};
+  
+  
+// ...
+const { inputDomainKey } = await getInputKey(input);
+const registry = await NameRegistryState.retrieve(
+  connection,
+  inputDomainKey
+);
